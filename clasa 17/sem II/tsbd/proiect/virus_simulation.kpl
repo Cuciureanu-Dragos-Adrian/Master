@@ -1,0 +1,65 @@
+// Files (FILE) exist on computers
+// A virus (VIRUS) starts spreading from computer 1
+// A server randomly sends patches to connected computers
+
+type Computer {
+    choice {
+        // Infection: convert a regular file to a virus
+        {FILE, VIRUS} -> {VIRUS, VIRUS} .
+        
+        // Transmission: send a virus to another connected computer
+        {VIRUS} -> {VIRUS} (Computer) .
+    }
+    max {
+        // Cleaning: use a patch to clean an infected file
+        {VIRUS, PATCH} -> {FILE, PATCH} .
+        
+        // If no virus is available, remove patch
+        {PATCH} -> {} . 
+    }
+}
+
+type Server {
+    choice {
+        // Server sends a patch to a computer, randomly
+        {} -> {PATCH} (Computer) .
+    }
+}
+
+// Initial states for nodes
+c1 {FILE, FILE, FILE, VIRUS} (Computer) .
+c2 {FILE, FILE} (Computer) .
+c3 {FILE, FILE, FILE} (Computer) .
+c4 {FILE} (Computer) .
+c5 {FILE, FILE, FILE, FILE} (Computer) .
+c6 {FILE, FILE} (Computer) .
+c7 {FILE, FILE, FILE} (Computer) .
+c8 {FILE, FILE} (Computer) .
+c9 {FILE, FILE, FILE} (Computer) .
+c10 {FILE} (Computer) .
+srv {} (Server) .
+
+// Network connections
+c1 - c2 .
+c1 - c3 .
+c1 - c4 .
+c2 - c5 .
+c2 - c6 .
+c3 - c7 .
+c4 - c8 .
+c5 - c9 .
+c6 - c10 .
+c7 - c10 .
+c8 - c9 .
+
+// Server connections
+srv - c1 .
+srv - c2 .
+srv - c3 .
+srv - c4 .
+srv - c5 .
+srv - c6 .
+srv - c7 .
+srv - c8 .
+srv - c9 .
+srv - c10 .

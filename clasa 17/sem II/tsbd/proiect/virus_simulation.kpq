@@ -1,0 +1,32 @@
+// Check if computer  eventually gets infected (it is from the beginning)
+ltl: eventually c1.VIRUS >= 1;
+
+// Verify that the total number of files and viruses remains constant (25)
+ltl: always (((((((((((c1.FILE + c1.VIRUS) + c2.FILE) + c2.VIRUS) + c3.FILE) + c3.VIRUS) + 
+            c4.FILE) + c4.VIRUS) + c5.FILE) + c5.VIRUS) + c6.FILE) + c6.VIRUS) + 
+            (((((((c7.FILE + c7.VIRUS) + c8.FILE) + c8.VIRUS) + c9.FILE) + c9.VIRUS) + 
+            c10.FILE) + c10.VIRUS) = 25;
+
+// Verify that patching computer 1 results in having no viruses
+ltl: always (c1.PATCH = 1) implies eventually (c1.VIRUS = 0);
+
+// Check if patches are always lesser or equal to 1
+ltl: always ((((((((c1.PATCH <= 1 and c2.PATCH <= 1) and c3.PATCH <= 1) and 
+                c4.PATCH <= 1) and c5.PATCH <= 1) and c6.PATCH <= 1) and 
+                c7.PATCH <= 1) and c8.PATCH <= 1) and c9.PATCH <= 1) and 
+                c10.PATCH <= 1;
+
+// Check if there exists only 1 PATCH
+ltl: always ((((((((c1.PATCH + c2.PATCH) + c3.PATCH) + 
+                c4.PATCH) + c5.PATCH) + c6.PATCH) + 
+                c7.PATCH) + c8.PATCH) + c9.PATCH) + 
+                c10.PATCH = 1;
+
+// Verify computer 8's files can't exceed 25
+ltl: always c8.FILE <= 26;
+
+// Verify computer 9's viruses can't exceed 25
+ltl: always c9.VIRUS <= 26;
+
+// Verify computer 10's resources can't exceed 25
+ltl: always c10.FILE + c10.VIRUS <= 26;
